@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cats{% endblock %}
+
+{% block body %}
+    <h1>Create new Cats</h1>
+
+    {{ include('pages/cats/_form.html.twig') }}
+
+    <a href="{{ path('app_cats_index') }}">back to list</a>
+{% endblock %}

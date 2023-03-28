@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Cats{% endblock %}
+
+{% block body %}
+    <h1>Edit Cats</h1>
+
+    {{ include('pages/cats/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_cats_index') }}">back to list</a>
+
+    {{ include('pages/cats/_delete_form.html.twig') }}
+{% endblock %}

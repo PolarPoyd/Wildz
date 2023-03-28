@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DogRace index{% endblock %}
+
+{% block body %}
+    <h1>DogRace index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dog_race in dog_races %}
+            <tr>
+                <td>{{ dog_race.id }}</td>
+                <td>{{ dog_race.name }}</td>
+                <td>{{ dog_race.createdAt ? dog_race.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_dog_race_show', {'id': dog_race.id}) }}">show</a>
+                    <a href="{{ path('app_dog_race_edit', {'id': dog_race.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dog_race_new') }}">Create new</a>
+{% endblock %}

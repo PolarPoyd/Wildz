@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.navHome {
+    height: 15vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(173, 24, 24);
+    padding: 0 20px;
+}
+
+.left {
+    margin-left: 50px;
+}
+
+.left a {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    background-color: blue;
+    justify-content: space-between;
+}
+
+.right a {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.right a:hover {
+    color: #666;
+}
+
+.right a:nth-child(5) {
+    margin-right: 20px;
+}
+
+.donate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: green;
+    height: 6vh;
+    width: 20vw;
+    text-align: center;
+}
+
+.donate a {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    margin: auto;
+}
+
+/* Ajout du menu burger */
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger span {
+    height: 1px;
+    width: 40px;
+    background-color: white;
+    margin-right: 5px;
+    display: block;
+}
+
+.burger span:not(:last-child) {
+    margin-bottom: 14px;
+}
+
+@media only screen and (max-width: 480px) {
+    /* Styles pour les smartphones les plus petits */
+    .navHome {
+        height: 10vh;
+        padding: 0 10px;
+    }
+    .left a {
+        font-size: 20px;
+        margin-left: 10px;
+      }
+      .right {
+        display: none;
+      }
+      .donate {
+        width: 100%;
+      }
+      .burger {
+        display: block;
+      }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+    /* Styles pour les smartphones de taille moyenne */
+    .navHome {
+        height: 10vh;
+        padding: 0 10px;
+    }
+    .right a:last-child {
+        margin-right: 0;
+    }
+    .donate {
+        width: 100%;
+    }
+    .left a {
+        font-size: 22px;
+        margin-left: 20px;
+      }
+      .right a {
+        font-size: 16px;
+        margin-left: 20px;
+      }
+      .donate {
+        width: 20vw;
+      }
+      .burger {
+        display: block;
+      }
+}
+
+@media only screen and (min-width: 767px) and (max-width: 1024px) {
+    /* Styles pour les tablettes de petite à moyenne taille */
+    .navHome {
+        height: 12vh;
+    }
+    .left a {
+        font-size: 22px;
+        margin-left: 20px;
+    }
+    .right a {
+        font-size: 16px;
+        margin-left: 20px;
+    }
+    .donate {
+        width: 20vw;
+    }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+    /* Styles pour les tablettes de grande taille */
+    .navHome {
+        height: 15vh;
+    }
+    .left a {
+        font-size: 24px;
+        margin-left: 20px;
+    }
+    .right a {
+        font-size: 14px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .right a:last-child {
+        margin-right: 20px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    /* Styles pour les petits écrans */
+    .navHome {
+      height: auto;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+    .left a {
+      font-size: 55px;
+      margin-right: auto;
+    }
+    .right {
+      display: none;
+    }
+    .burger {
+      display: block;
+    }
+    .right a:last-child {
+      margin-right: 0;
+    }
+    .right a {
+      margin-left: 20px;
+      margin-right: 20px;
+      font-size: 16px;
+    }
+  }
