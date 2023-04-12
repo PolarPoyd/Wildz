@@ -5,17 +5,17 @@
 				{{ form_start(form) }}
 				{{ form_errors(form) }}
 				{{ form_widget(form._token) }}
-				<div class="form-group">
-					{{ form_label(form.name) }}
-					{{ form_widget(form.name) }}
-					{{ form_errors(form.name) }}
-				</div>
+					<div class="form-group">
+						{{ form_label(form.name) }}
+						{{ form_widget(form.name) }}
+						{{ form_errors(form.name) }}
+					</div>
 
-				<div class="form-group">
-					{{ form_label(form.imageFile) }}
-					{{ form_widget(form.imageFile, {'attr': {'class': 'form-control', 'onchange': 'previewImage(event)'}}) }}
-					{{ form_errors(form.imageFile) }}
-				</div>
+					<div class="form-group">
+						{{ form_label(form.imageFile) }}
+						{{ form_widget(form.imageFile, {'attr': {'class': 'form-control', 'onchange': 'previewImage(event)'}}) }}
+						{{ form_errors(form.imageFile) }}
+					</div>
 
 				{# Display the image preview container #}
 				<div class="card mt-4" id="image-preview" style="display: none;">

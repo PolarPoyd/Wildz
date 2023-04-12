@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\DogsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 #[ORM\Entity(repositoryClass: DogsRepository::class)]
+#[Vich\Uploadable]
 class Dogs
 {
     #[ORM\Id]

@@ -4,24 +4,39 @@ namespace App\Controller;
 
 use App\Entity\Cats;
 use App\Form\CatsType;
-use App\Repository\CatsRepository;
 use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CatsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 #[Route('/cats')]
 class CatsController extends AbstractController
 {
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/', name: 'app_cats_index', methods: ['GET'])]
-    public function index(CatsRepository $catsRepository): Response
+    public function index(CatsRepository $catsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $cats = $paginator->paginate(
+            $catsRepository->findAll(),
+            $request->query->getInt('page', "1"), 4
+        );
+
         return $this->render('pages/cats/index.html.twig', [
             'cats' => $catsRepository->findAll(),
+            'cats' => $cats
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/new', name: 'app_cats_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CatsRepository $catsRepository): Response
     {
@@ -42,6 +57,9 @@ class CatsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_cats_show', methods: ['GET'])]
     public function show(Cats $cat): Response
     {
@@ -50,6 +68,9 @@ class CatsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}/edit', name: 'app_cats_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Cats $cat, CatsRepository $catsRepository): Response
     {
@@ -68,6 +89,9 @@ class CatsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_cats_delete', methods: ['POST'])]
     public function delete(Request $request, Cats $cat, CatsRepository $catsRepository): Response
     {
