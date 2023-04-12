@@ -1,49 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des utilisateurs
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+<div class="row my-3 custom-class">
+	<div class="col-sm-12 col-md-6">
+		{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
+		{% endfor %}
+	</div>
+	<div class="col-12 mx-auto px-4">
+    <h1 class="text-center mt-5"> Liste des utilisateurs </h1>
+	<h4 class="text-center mt-1 mb-5">Il y a {{ users.getTotalItemCount }} utilisateurs au total</h4>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>IsVerified</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.createdAt ? user.createdAt|date('d/m/Y à H:i:s') : '' }}</td>
-                <td>{{ user.updatedAt ? user.updatedAt|date('d/m/Y à H:i:s') : '' }}</td>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<div class="table-responsive">
+		<table class="table table-hover table-sm">
+			<thead>
+				<tr class="table-active">
+					<th scope="col">Email</th>
+					<th scope="col">Mot de passe</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Crée le</th>
+					<th scope="col">Editer</th>
+					<th scope="col">Détails</th>
+					<th scope="col">Supprimer</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+				<tr class="table-active">
+					<td>{{ user.email }}</td>
+					<td>{{ user.password }}</td>
+					<td>{{ user.firstname }}</td>
+					<td>{{ user.lastname }}</td>
+					<td>{{ user.createdAt ? user.createdAt|date('d/m/Y à H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-primary">Modifier</a>
+					</td>
+					<td>
+						<a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-info">Détails</a>
+					</td>
+					<td>{{ include('pages/user/_delete_form.html.twig') }}</td>
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="8">Il n'y a rien ici...</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+<div class="col-12 text-center mt-3">
+	<a href="{{ path('app_user_new') }}" class="btn btn-success">Créer</a>
+</div>
+
+<div class="col-12 mt-3 mb-5 d-flex justify-content-center">
+	{{ knp_pagination_render(users) }}
+</div>
+</div>
+
 {% endblock %}

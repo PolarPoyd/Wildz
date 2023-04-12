@@ -1,13 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit CatRace{% endblock %}
+{% block title %}Editer
+{% endblock %}
 
 {% block body %}
-    <h1>Edit CatRace</h1>
+	<h1 class="text-center mt-5">Modifier cette race</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div class="form-group">
+                {{ form_label(form.name, 'Nom de la race', {'label_attr': {'class': 'form-label mt-4'}}) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Siamois'}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.imageFile, 'Photo de la race', {'label_attr': {'class': 'form-label mt-4'}}) }}
+                {{ form_widget(form.imageFile.file, {'attr': {'class': 'form-control', 'onchange': 'previewImage(event)'}}) }}
+                {{ form_errors(form.imageFile.file) }}
+            </div>
 
-    {{ include('pages/cat_race/_form.html.twig', {'button_label': 'Update'}) }}
+            {# Display the current image if available, or the new image preview #}
+            <div class="card mt-4" id="image-preview" {% if not cat_race.imageName %} style="display: none;" {% endif %}>
+                <img src="{{ cat_race.imageName ? asset('images/post/' ~ cat_race.imageName) : '' }}" alt="Image Preview" class="card-img-top" id="image-preview-src">
+            </div>
 
-    <a href="{{ path('app_cat_race_index') }}">back to list</a>
+            {% if cat_race.imageName %}
+                <div class="d-flex mt-2 align-items-center">
+                    <div class="custom-control custom-checkbox me-3">
+                        {{ form_widget(form.imageFile.delete, {'attr': {'class': 'custom-control-input'}, 'id': 'delete_image'}) }}
+                        {{ form_label(form.imageFile.delete, 'Supprimer l\'image', {'label_attr': {'class': 'custom-control-label'}}) }}
+                    </div>
+                    <a href="{{ asset('images/post/' ~ cat_race.imageName) }}" download class="btn btn-link">Télécharger l'image</a>
+                </div>
+            {% endif %}
 
-    {{ include('pages/cat_race/_delete_form.html.twig') }}
+            <div class="d-flex justify-content-center mt-5 mb-5">
+                <button type="submit" class="btn btn-primary me-4">Valider</button>
+                <a class="btn btn-secondary" href="{{ path('app_cat_race_index') }}">Retour</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{# JavaScript to handle image preview #}
+{% block javascripts %}
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const previewContainer = document.getElementById('image-preview');
+            const previewImage = document.getElementById('image-preview-src');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        function toggleImageDelete() {
+            const deleteInput = document.querySelector('#{{ form.imageFile.vars.id }}_delete');
+                if (form.imageFile.vars.has('delete')) {
+                    deleteInput.checked = ! deleteInput.checked;
+                }
+            }
+
+		</script>
+
+		{% endblock %}
+        
 {% endblock %}

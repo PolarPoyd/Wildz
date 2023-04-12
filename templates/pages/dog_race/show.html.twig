@@ -1,30 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DogRace{% endblock %}
+{% block title %}Détail
+{% endblock %}
 
 {% block body %}
-    <h1>DogRace</h1>
+<div class="container my-4">
+<h1 class="text-center mt-5 mb-5">Race de chien {{ dog_race.name }}</h1>
+<div class="table-responsive">
+	<table class="table table-bordered table-striped">
+		<tbody>
+			<tr>
+				<th class="text-center">Id</th>
+				<td class="text-center">{{ dog_race.id }}</td>
+			</tr>
+			<tr>
+				<th class="text-center">Nom</th>
+				<td class="text-center">{{ dog_race.name }}</td>
+			</tr>
+			<tr>
+				<th class="text-center">Image</th>
+				<td class="text-center">
+                    {% if dog_race.imageName %}
+                        <a href="{{ asset('images/post/' ~ dog_race.imageName) }}" target="_blank">
+                            <img src="{{ asset('images/post/' ~ dog_race.imageName) }}" alt="{{ dog_race.name }}" width="100">
+                        </a>
+                    {% else %}
+                        Il n'y a pas d'image
+                    {% endif %}
+                </td>
+			</tr>
+			<tr>
+				<th class="text-center">Créé le</th>
+				<td class="text-center">{{ dog_race.createdAt ? dog_race.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th class="text-center">Modifié le</th>
+				<td class="text-center">{{ dog_race.updatedAt ? dog_race.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ dog_race.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ dog_race.name }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ dog_race.createdAt ? dog_race.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="d-flex justify-content-center align-items-center gap-2 mt-5">
+	<a href="{{ path('app_dog_race_index') }}" class="btn btn-secondary">Retour</a>
 
-    <a href="{{ path('app_dog_race_index') }}">back to list</a>
+	<a href="{{ path('app_dog_race_edit', {'id': dog_race.id}) }}" class="btn btn-primary">Modifier</a>
 
-    <a href="{{ path('app_dog_race_edit', {'id': dog_race.id}) }}">edit</a>
+	{{ include('pages/dog_race/_delete_form.html.twig') }}
+</div>
+</div>
 
-    {{ include('pages/dog_race/_delete_form.html.twig') }}
 {% endblock %}

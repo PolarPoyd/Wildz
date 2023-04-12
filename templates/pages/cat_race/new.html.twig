@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New CatRace{% endblock %}
+{% block title %}Création race de chat{% endblock %}
 
 {% block body %}
-    <h1>Create new CatRace</h1>
+    <h1 class="text-center mt-5">Créer une nouvelle race de chat</h1>
 
     {{ include('pages/cat_race/_form.html.twig') }}
 
-    <a href="{{ path('app_cat_race_index') }}">back to list</a>
 {% endblock %}

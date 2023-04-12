@@ -1,26 +1,34 @@
 {% block body %}
-
-
-	<nav class="navHome">
-		<div class="left">
-			<a href="">WildZ</a>
-		</div>
-		<div class="right">
-			<a href="#">Notre Mission</a>
-			<a href="#">Equipe</a>
-			<a href="#">Services</a>
-			<a href="#">Contribuer</a>
-			<a href="#">Blog</a>
-			<div class="donate">
-				<a href="#">Faire un don maintenant</a>
-			</div>
-		</div>
-		<!-- Ajout du menu burger -->
-		<div class="burger">
-			<span></span>
-			<span></span>
-		</div>
-	</nav>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" href="#">Mon Panel Admin</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav me-auto">
+			<li class="nav-item {% if app.request.get('_route') == 'home.index' %}active{% endif %}">
+				<a class="nav-link" href="{{ path('home.index') }}">Accueil
+          {% if app.request.get('_route') == 'home.index' %}<span class="visually-hidden">(current)</span>{% endif %}
+        </a>
+			</li>
+			<li class="nav-item {% if app.request.get('_route') == 'app_user_index' %}active{% endif %}">
+				<a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a>
+			</li>
+      <li class="nav-item dropdown {% if app.request.get('_route') == 'app_cats_index' or app.request.get('_route') == 'app_cat_race_index' %}active{% endif %}">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chats</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{ path('app_cats_index') }}">Chats</a>
+          <a class="dropdown-item" href="{{ path('app_cat_race_index') }}">Race</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown {% if app.request.get('_route') == 'app_dogs_index' or app.request.get('_route') == 'app_dog_race_index' %}active{% endif %}">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chiens</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{ path('app_dogs_index') }}">Chiens</a>
+          <a class="dropdown-item" href="{{ path('app_dog_race_index') }}">Race</a>
+        </div>
+      </li>
+	</div>
+</nav>
 
 {% endblock %}

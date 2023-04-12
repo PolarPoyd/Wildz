@@ -1,37 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DogRace index{% endblock %}
+{% block title %}Liste des races de chiens
+{% endblock %}
 
 {% block body %}
-    <h1>DogRace index</h1>
+	<div class="row my-3 custom-class">
+		<div class="col-sm-12 col-md-6">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+		</div>
+		<div class="col-12 mx-auto px-4">
+			<h1 class="text-center mt-5">
+				Toutes les races de chiens
+			</h1>
+			<h4 class="text-center mt-1 mb-5">Il y a
+				{{ dog_races.getTotalItemCount }}
+				races de chiens au total</h4>
+			<div class="table-responsive">
+				<table class="table table-hover table-sm">
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom de la race</th>
+							<th scope="col">Crée le</th>
+							<th scope="col">Editer</th>
+							<th scope="col">Détails</th>
+							<th scope="col">Supprimer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for dog_race in dog_races %}
+							<tr class="table-active">
+								<td>{{ dog_race.name }}</td>
+								<td>{{ dog_race.createdAt ? dog_race.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+								<td>
+									<a href="{{ path('app_dog_race_edit', {'id': dog_race.id}) }}" class="btn btn-primary">Modifier</a>
+								</td>
+								<td>
+									<a href="{{ path('app_dog_race_show', {'id': dog_race.id}) }}" class="btn btn-info">Détails</a>
+								</td>
+								<td>
+									{{ include('pages/dog_race/_delete_form.html.twig') }}
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="8">Il n'y a rien ici...</td>
+							</tr>
+						{% endfor %}
+						{% if dog_races is empty %}
+							<tr>
+								<td colspan="5">Pas de races de chiens</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-12 text-center mt-3">
+				<a href="{{ path('app_dog_race_new') }}" class="btn btn-success">Créer</a>
+			</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for dog_race in dog_races %}
-            <tr>
-                <td>{{ dog_race.id }}</td>
-                <td>{{ dog_race.name }}</td>
-                <td>{{ dog_race.createdAt ? dog_race.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_dog_race_show', {'id': dog_race.id}) }}">show</a>
-                    <a href="{{ path('app_dog_race_edit', {'id': dog_race.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_dog_race_new') }}">Create new</a>
-{% endblock %}
+			<div class="col-12 mt-3 d-flex justify-content-center mb-5">
+				{{ knp_pagination_render(dog_races) }}
+			</div>
+		</div>
+	{% endblock %}

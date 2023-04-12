@@ -5,22 +5,38 @@ namespace App\Controller;
 use App\Entity\CatRace;
 use App\Form\CatRaceType;
 use App\Repository\CatRaceRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 #[Route('/cat/race')]
 class CatRaceController extends AbstractController
 {
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/', name: 'app_cat_race_index', methods: ['GET'])]
-    public function index(CatRaceRepository $catRaceRepository): Response
+    public function index(CatRaceRepository $catRaceRepository,  PaginatorInterface $paginator, Request $request): Response
     {
+        $cat_races = $paginator->paginate(
+            $catRaceRepository->findAll(),
+            $request->query->getInt('page', '1'), 4
+        );
+
         return $this->render('pages/cat_race/index.html.twig', [
             'cat_races' => $catRaceRepository->findAll(),
+            'cat_races' => $cat_races
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/new', name: 'app_cat_race_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CatRaceRepository $catRaceRepository): Response
     {
@@ -40,6 +56,9 @@ class CatRaceController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_cat_race_show', methods: ['GET'])]
     public function show(CatRace $catRace): Response
     {
@@ -48,6 +67,9 @@ class CatRaceController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}/edit', name: 'app_cat_race_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, CatRace $catRace, CatRaceRepository $catRaceRepository): Response
     {
@@ -66,6 +88,9 @@ class CatRaceController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_cat_race_delete', methods: ['POST'])]
     public function delete(Request $request, CatRace $catRace, CatRaceRepository $catRaceRepository): Response
     {

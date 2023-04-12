@@ -1,13 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit DogRace{% endblock %}
+{% block title %}Editer
+{% endblock %}
 
 {% block body %}
-    <h1>Edit DogRace</h1>
+	<h1 class="text-center mt-5">Modifier cette race</h1>
 
-    {{ include('pages/dog_race/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				{{ form_start(form) }}
+				{{ form_errors(form) }}
+				<div class="form-group">
+					{{ form_label(form.name) }}
+					{{ form_widget(form.name) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(form.imageFile) }}
+					{{ form_widget(form.imageFile.file, {'attr': {'class': 'form-control', 'onchange': 'previewImage(event)'}}) }}
+					{{ form_errors(form.imageFile.file) }}
+				</div>
 
-    <a href="{{ path('app_dog_race_index') }}">back to list</a>
+				{# Display the current image if available, or the new image preview #}
+				<div class="card mt-4" id="image-preview" {% if not dog_race.imageName %} style="display: none;" {% endif %}>
+					<img src="{{ dog_race.imageName ? asset('images/post/' ~ dog_race.imageName) : '' }}" alt="Image Preview" class="card-img-top" id="image-preview-src">
+				</div>
 
-    {{ include('pages/dog_race/_delete_form.html.twig') }}
+				{% if dog_race.imageName %}
+					<div class="d-flex mt-2 align-items-center">
+						<div class="custom-control custom-checkbox me-3">
+							{{ form_widget(form.imageFile.delete, {'attr': {'class': 'custom-control-input'}}) }}
+							{{ form_label(form.imageFile.delete, 'Supprimer l\'image', {'label_attr': {'class': 'custom-control-label'}}) }}
+        </div>
+        <a href="{{ asset('images/post/' ~ dog_race.imageName) }}" download class="btn btn-link">Télécharger l'image</a>
+    </div>
+{% endif %}
+
+
+				<div class="d-flex justify-content-center mt-5 mb-5">
+					<button type="submit" class="btn btn-primary me-4">Valider</button>
+					<a class="btn btn-secondary" href="{{ path('app_dog_race_index') }}">Retour</a>
+					{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# JavaScript to handle image preview #}
+			{% block javascripts %}
+				<script>
+					function previewImage(event) {
+                        const input = event.target;
+                        const previewContainer = document.getElementById('image-preview');
+                        const previewImage = document.getElementById('image-preview-src');
+
+                        if (input.files && input.files[0]) {
+                            const reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                previewImage.src = e.target.result;
+                                previewContainer.style.display = 'block';
+                            };
+
+                            reader.readAsDataURL(input.files[0]);
+                        } else {            
+                            previewContainer.style.display = 'none';
+                        }
+                    }
+
+                    function toggleImageDelete() {
+                        const deleteInput = document.querySelector('#    {{ form.imageFile.vars.id }}_delete');
+                        if (form.imageFile.vars.has('delete')) {
+                            deleteInput.checked = ! deleteInput.checked;
+                        }
+                    }
+				</script>
+
+		{% endblock %}
+
 {% endblock %}
