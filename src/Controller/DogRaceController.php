@@ -50,7 +50,7 @@ class DogRaceController extends AbstractController
             return $this->redirectToRoute('app_dog_race_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/dog_race/new.html.twig', [
+        return $this->render('pages/dog_race/new.html.twig', [
             'dog_race' => $dogRace,
             'form' => $form,
         ]);
@@ -84,7 +84,7 @@ class DogRaceController extends AbstractController
             return $this->redirectToRoute('app_dog_race_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/dog_race/edit.html.twig', [
+        return $this->render('pages/dog_race/edit.html.twig', [
             'dog_race' => $dogRace,
             'form' => $form,
         ]);

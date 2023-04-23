@@ -1,25 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User
+{% block title %}Editer un utilisateur
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-center mt-5">Modifier l'utilisateur</h1>
+	<h1 class="text-center mt-5">Modifier l'utilisateur
+		{{ user.firstname }}
+		{{ user.lastname }}</h1>
 
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				{{ form_start(form) }}
 				{{ form_errors(form) }}
-{% for role in form.roles %}
-    <div class="form-check form-switch">
-        {{ form_widget(role, { 'attr': {'class': 'form-check-input'} }) }}
-        {{ form_label(role) }}
-        {% if role.vars.value in user.roles %}
-            <script>document.getElementById('{{ role.vars.id }}').checked = true;</script>
-        {% endif %}
-    </div>
-{% endfor %}
+				{% for role in form.roles %}
+					<div class="form-check form-switch">
+						{{ form_widget(role, { 'attr': {'class': 'form-check-input'} }) }}
+						{{ form_label(role) }}
+						{% if role.vars.value in user.roles %}
+							<script>
+								document.getElementById('{{ role.vars.id }}').checked = true;
+							</script>
+						{% endif %}
+					</div>
+				{% endfor %}
 
 				<div class="form-group">
 					{{ form_label(form.email) }}
@@ -29,7 +33,11 @@
 
 				<div class="form-group">
 					{{ form_label(form.plainPassword) }}
-					{{ form_widget(form.plainPassword, {'attr': {'readonly': 'readonly', 'type': 'password', 'class': 'form-control text-muted' }, 'value': user.getHashedPassword() }) }}
+					{% if currentUser.id == user.id %}
+						{{ form_widget(form.plainPassword, {'attr': {'type': 'password', 'class': 'form-control'}, 'value': user.getPassword() }) }}
+					{% else %}
+						{{ form_widget(form.plainPassword, {'attr': {'readonly': 'readonly', 'type': 'password', 'class': 'form-control text-muted'}, 'value': user.getHashedPassword() }) }}
+					{% endif %}
 				</div>
 				<div class="form-group">
 					{{ form_label(form.firstname) }}

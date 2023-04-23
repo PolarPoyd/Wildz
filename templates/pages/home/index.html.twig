@@ -3,34 +3,93 @@
 {% block title %}Tableau de bord - Administration{% endblock %}
 
 {% block body %}
-	<div class="row">
-		<div class="col-sm-12 col-md-6">
-			{% for message in app.flashes('success') %}
-				<div class="alert alert-success">{{ message }}</div>
-			{% endfor %}
-		</div>
-		<div class="col-12">
-			<h1 class="text-center mt-4">
-				Tableau de bord - Administration
-			</h1>
-			<h4 class="text-center mt-1 mb-5">Bienvenue sur le panel d'administration</h4>
-			<div class="row">
-				<div class="col-md-4">
-					<div class="card text-white bg-primary mb-3">
-						<div class="card-header">Nombre total de races de chiens</div>
-						<div class="card-body">
-							{# <h5 class="card-title">{{ dog_races.getTotalItemCount }}</h5> #}
-						</div>
-					</div>
-				</div>
-				<!-- Ajoutez d'autres cartes pour d'autres statistiques si nécessaire -->
-			</div>
-		</div>
-
-		<div class="row mt-3">
-			<div class="col-12 text-center mt-3">
-				<a href="{{ path('app_dog_race_new') }}" class="btn btn-success">Ajouter une race de chien</a>
-			</div>
-		</div>
-	</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  </div>
+  <div class="col-12">
+    <h1 class="text-center mt-4">Tableau de bord - Administration</h1>
+    <h4 class="text-center mt-1 mb-5">Bienvenue sur le panel d'administration</h4>
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3">
+          <img src="{{ asset('assets/logo/dog.jpg') }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title text-center">Nombre total de races de chiens</h5>
+            <p class="card-text text-center">{{ dog_races|length }}</p>
+            <div class="row mt-3">
+              <div class="col-12 text-center mt-1">
+                <a href="{{ path('app_dog_race_index') }}" class="btn btn-outline-light">Accéder</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3">
+          <img src="{{ asset('assets/logo/cat.jpg') }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title text-center">Nombre total de races de chats</h5>
+            <p class="card-text text-center">{{ cat_races|length }}</p>
+            <div class="row mt-3">
+              <div class="col-12 text-center mt-1">
+                <a href="{{ path('app_cat_race_index') }}" class="btn btn-outline-light">Accéder</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3">
+          <img src="{{ asset('assets/logo/cat.jpg') }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title text-center">Nombre total de chats</h5>
+            <p class="card-text text-center">{{ cats|length }}</p>
+            <div class="row mt-3">
+              <div class="col-12 text-center mt-1">
+                <a href="{{ path('app_cats_index') }}" class="btn btn-outline-light">Accéder</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3">
+          <img src="{{ asset('assets/logo/dog.jpg') }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title text-center">Nombre total de chiens</h5>
+            <p class="card-text text-center">{{ dogs|length }}</p>
+            <div class="row mt-3">
+              <div class="col-12 text-center mt-1">
+                <a href="{{ path('app_dogs_index') }}" class="btn btn-outline-light">Accéder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4">
+    <div class="card mb-3">
+      <img src="{{ asset('assets/logo/user.jpg') }}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title text-center">Nombre total d'utilisateurs</h5>
+        <p class="card-text text-center">{{ users|length }}</p>
+        <div class="row mt-3">
+          <div class="col-12 text-center mt-1">
+            <a href="{{ path('app_user_index') }}" class="btn btn-outline-light">Accéder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-12 text-center mt-3">
+    <a href="{{ path('app_dog_race_new') }}" class="btn btn-success">Ajouter une race de chien</a>
+  </div>
+</div>
+ </div>
+</div>
 {% endblock %}
+

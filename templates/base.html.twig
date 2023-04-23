@@ -21,6 +21,10 @@
 					padding: 0;
 					overflow-x: hidden;
 				}
+
+                main {
+                    flex: 1;
+                }
 			</style>
 			<link rel="stylesheet" href="https://bootswatch.com/5/slate/bootstrap.min.css">
 			<link rel="stylesheet" href="https://bootswatch.com/5/slate/_variables.scss">
@@ -34,10 +38,10 @@
 			{{ include("partials/_header.html.twig") }}
 		{% endblock %}
 
-		{% block body %}
-			<main></main>
-
-		{% endblock %}
+		<main>
+            {% block body %}
+            {% endblock %}
+        </main>
 
 		{% block footer %}
 			{{ include("partials/_footer.html.twig") }}

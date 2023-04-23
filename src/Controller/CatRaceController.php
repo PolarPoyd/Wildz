@@ -50,7 +50,7 @@ class CatRaceController extends AbstractController
             return $this->redirectToRoute('app_cat_race_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/cat_race/new.html.twig', [
+        return $this->render('pages/cat_race/new.html.twig', [
             'cat_race' => $catRace,
             'form' => $form,
         ]);
@@ -82,7 +82,7 @@ class CatRaceController extends AbstractController
             return $this->redirectToRoute('app_cat_race_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/cat_race/edit.html.twig', [
+        return $this->render('pages/cat_race/edit.html.twig', [
             'cat_race' => $catRace,
             'form' => $form,
         ]);
@@ -91,13 +91,18 @@ class CatRaceController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    #[Route('/{id}', name: 'app_cat_race_delete', methods: ['POST'])]
-    public function delete(Request $request, CatRace $catRace, CatRaceRepository $catRaceRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$catRace->getId(), $request->request->get('_token'))) {
-            $catRaceRepository->remove($catRace, true);
-        }
 
-        return $this->redirectToRoute('app_cat_race_index', [], Response::HTTP_SEE_OTHER);
+#[Route('/{id}', name: 'app_cat_race_delete', methods: ['POST'])]
+public function delete(Request $request, CatRace $catRace, CatRaceRepository $catRaceRepository): Response
+{
+    if ($this->isCsrfTokenValid('delete'.$catRace->getId(), $request->request->get('_token'))) {
+        foreach ($catRace->getCats() as $cat) {
+            $catRace->removeCat($cat);
+        }
+        $catRaceRepository->remove($catRace, true);
     }
+
+    return $this->redirectToRoute('app_cat_race_index', [], Response::HTTP_SEE_OTHER);
+}
+
 }

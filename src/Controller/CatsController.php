@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-#[Route('/cats')]
+#[Route('/admin/cats')]
 class CatsController extends AbstractController
 {
     /**
@@ -25,11 +25,10 @@ class CatsController extends AbstractController
     {
         $cats = $paginator->paginate(
             $catsRepository->findAll(),
-            $request->query->getInt('page', "1"), 4
+            $request->query->getInt('page', 1), 5
         );
 
         return $this->render('pages/cats/index.html.twig', [
-            'cats' => $catsRepository->findAll(),
             'cats' => $cats
         ]);
     }
@@ -51,7 +50,7 @@ class CatsController extends AbstractController
             return $this->redirectToRoute('app_cats_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/cats/new.html.twig', [
+        return $this->render('pages/cats/new.html.twig', [
             'cat' => $cat,
             'form' => $form,
         ]);
@@ -83,7 +82,7 @@ class CatsController extends AbstractController
             return $this->redirectToRoute('app_cats_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/cats/edit.html.twig', [
+        return $this->render('pages/cats/edit.html.twig', [
             'cat' => $cat,
             'form' => $form,
         ]);

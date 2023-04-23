@@ -1,0 +1,443 @@
+{% block stylesheets %}
+	<style>
+		nav {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background-color: transparent;
+			position: relative;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 999;
+			padding-top: 20px; /* Ajout d'un espace entre le haut de la page et la barre de navigation */
+			font-family: 'Montserrat', sans-serif;
+
+		}
+		nav ul li a {
+			color: #000;
+			text-decoration: none;
+			font-size: 16px;
+			text-transform: uppercase;
+			transition: border-bottom 0.3s ease;
+			font-family: 'Montserrat', sans-serif; /* Ajout de la police Montserrat */
+			font-weight: 300;
+		}
+
+
+		.title {
+			font-size: 2vw;
+		}
+
+		/* Ajoutez ce style pour le menu plein écran */
+		.fullscreen-menu {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			z-index: 1000;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.5s, visibility 0.5s;
+			padding: 0;
+		}
+
+		.fullscreen-menu.show {
+			opacity: 1;
+			visibility: visible;
+		}
+		.fullscreen-menu ul {
+			list-style-type: none; /* Ajout de cette ligne */
+			padding: 0; /* Ajout de cette ligne */
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+		}
+		.fullscreen-menu ul li a {
+			text-decoration: none;
+			color: #000;
+			font-family: 'Montserrat', sans-serif;
+			font-weight: bold;
+			font-size: 24px;
+		}
+
+
+		.cross {
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+
+		.cross:before,
+		.cross:after {
+			content: "";
+			position: absolute;
+			height: 3px;
+			width: 100%;
+			background-color: black;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.cross:before {
+			transform: rotate(45deg);
+		}
+
+		.cross:after {
+			transform: rotate(-45deg);
+		}
+
+
+		.burger {
+			width: 30px;
+			height: 3px;
+			background-color: black;
+			display: block;
+			position: absolute;
+			left: 20px;
+			transition: 0.5s;
+		}
+
+		.burger.second-line {
+			top: 10px; /* place the second line 10px below the first line */
+		}
+
+		.burger.hide {
+			display: none;
+		}
+
+
+		nav ul {
+			display: flex;
+			list-style: none;
+		}
+
+		nav ul li {
+			margin-right: 20px;
+			border-bottom: 1px solid transparent;
+		}
+
+		nav ul li a {
+			color: #000;
+			text-decoration: none;
+			font-size: 16px;
+			font-weight: bold;
+			text-transform: uppercase;
+			transition: border-bottom 0.3s ease;
+		}
+
+		nav ul li.active a,
+		nav ul li a:hover {
+			border-bottom: 1px solid #000;
+		}
+
+		.logo {
+			display: flex;
+			align-items: center;
+		}
+
+		.logo img {
+			width: 100px;
+			height: auto;
+			margin-left: 20px;
+		}
+
+		span {
+			margin-left: 5vw;
+		}
+		.button-list {
+			display: flex;
+			align-items: center;
+			list-style: none;
+			margin-right: 20px;
+			margin-left: 20px; /* Ajout de l'espacement à gauche */
+		}
+
+		.button-list a {
+			text-decoration: none;
+			font-size: 16px;
+			font-weight: bold;
+			text-transform: uppercase;
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.button-list a.button {
+			background-color: #FF9585; /* Couleur saumon */
+			color: #fff; /* Police blanche */
+			border: none;
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+
+		.button-list a.button:hover {
+			background-color: #FFAFA0; /* Couleur saumon plus claire */
+			text-decoration: none;
+		}
+
+
+		.button-list li {
+			margin-right: 10px;
+		}
+
+		.button-list li:last-child {
+			margin-right: 0;
+		}
+
+		.button-list a {
+			color: #000;
+			text-decoration: none;
+			font-size: 16px;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.button-list a:hover {
+			border-bottom: none;
+			text-decoration: underline;
+		}
+
+		.button-list button {
+			background-color: #000;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			font-size: 16px;
+			font-weight: bold;
+			text-transform: uppercase;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.button-list button:hover {
+			background-color: #fff;
+			color: #000;
+		}
+
+		.hide {
+			display: none;
+		}
+
+		.show {
+			display: block;
+		}
+
+		.menu-toggle {
+			display: none;
+			position: absolute;
+			top: 50%;
+			right: 60px;
+			transform: translateY(-50%);
+		}
+
+		.cross {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			display: none;
+		}
+		.show .cross {
+			display: block;
+		}
+
+
+		.fullscreen-menu ul li {
+			margin-bottom: 20px; /* Augmenter l'espacement entre les liens */
+		}
+
+		.fullscreen-menu ul li:last-child {
+			margin-bottom: 0;
+		}
+
+		/* Centrer les liens du menu burger sur la page */
+		.fullscreen-menu ul {
+			justify-content: center;
+			margin-top: 20vh;
+		}
+
+		@media(max-width: 768px) {
+			nav {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.title {
+				font-size: 7vw;
+			}
+
+			.hide-burger {
+				display: none;
+			}
+
+			nav ul {
+				margin-top: 10px;
+				flex-direction: column;
+				display: none;
+			}
+
+			nav ul li {
+				margin-right: 0;
+				margin-bottom: 10px;
+				border-bottom: none;
+			}
+
+			.menu-toggle {
+				display: block;
+				cursor: pointer;
+				/* font-size:  */
+			}
+
+			.button-list {
+				display: none;
+			}
+
+			.menu-toggle {
+				display: block;
+				cursor: pointer;
+				font-size: 24px;
+				margin-right: 20px;
+			}
+
+			.show-menu ul {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.show-menu li {
+				margin-right: 0;
+				margin-bottom: 10px;
+				border-bottom: none;
+			}
+
+			.show-menu .button-list {
+				display: flex;
+				flex-direction: column;
+				margin-right: 0;
+			}
+
+			.show-menu .button-list li {
+				margin-bottom: 10px;
+			}
+
+			.show-menu .button-list li:last-child {
+				margin-bottom: 0;
+			}
+		}
+	</style>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const burger = document.querySelector(".burger");
+const burgerSecond = document.querySelector("#burger-second-line");
+const fullscreenMenu = document.querySelector(".fullscreen-menu");
+const menuToggle = document.querySelector(".menu-toggle"); // Modifiez cette ligne
+const cross = document.querySelector(".fullscreen-menu .cross");
+const fullscreenCross = document.querySelector("#fullscreen-cross");
+
+function toggleMenu() {
+burger.classList.toggle("hide");
+cross.classList.toggle("hide");
+fullscreenMenu.classList.toggle("show");
+menuToggle.classList.toggle("hide-burger");
+cross.classList.toggle("show");
+}
+
+menuToggle.addEventListener("click", toggleMenu);
+burgerSecond.addEventListener("click", toggleMenu);
+cross.addEventListener("click", toggleMenu);
+});
+	</script>
+{% endblock %}
+
+
+{% block body %}
+	<nav>
+		<div class="logo">
+			<img src="{{ asset('assets/logo/pet-hotel-sign-with-a-dog-and-a-cat-under-a-roof-line.png') }}" alt="Your Logo">
+			<span class="title">WildZ</span>
+		</div>
+		<ul class="hide-menu">
+			<li class="active">
+				<a href="#">Notre Mission</a>
+			</li>
+			<li>
+				<a href="#">Equipe</a>
+			</li>
+			<li>
+				<a href="#">Services</a>
+			</li>
+			<li>
+				<a href="#">Blog</a>
+			</li>
+		</ul>
+		<ul class="button-list">
+			{% if app.user is null %}
+				<li>
+					<a href="{{ path('app_login') }}" class="button">Connexion</a>
+				</li>
+				<!-- Vous pouvez ajouter le lien d'inscription ici si nécessaire -->
+			{% else %}
+				<li>
+					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
+				</li>
+				<li>
+					<a href="{{ path('app_logout') }}" class="button">Déconnexion</a>
+				</li>
+			{% endif %}
+		</ul>
+		<div class="menu-toggle">
+			<span class="burger"></span>
+			{# <span class="burger second-line"></span> #}
+			<span class="burger second-line" id="burger-second-line"></span>
+		</div>
+	</nav>
+	<div class="fullscreen-menu hide">
+		<span class="cross" id="fullscreen-cross"></span>
+		<ul>
+			<li>
+				<a href="#">Notre Mission</a>
+			</li>
+			<li>
+				<a href="#">Equipe</a>
+			</li>
+			<li>
+				<a href="#">Services</a>
+			</li>
+			<li>
+				<a href="#">Blog</a>
+			</li>
+			{% if app.user is null %}
+				<li>
+					<a href="{{ path('app_login') }}" class="button">Connexion</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
+				</li>
+				<li>
+					<a href="{{ path('app_logout') }}" class="button">Déconnexion</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+{% endblock %}

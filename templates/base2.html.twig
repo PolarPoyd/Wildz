@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}WildZ
+			{% endblock %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block stylesheets %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-1FK4J1nv7EIMM7T/rV7A16nMh3xooWD7D//Z+1NR1eHW+1gWM02a7hxM+jWf00z7" crossorigin="anonymous">
+
+    
+		{% endblock %}
+		{% block javascripts %}
+		{% endblock %}
+	</head>
+	<body>
+		{% block header %}
+			{{ include("partials/_header2.html.twig") }}
+		{% endblock %}
+
+		<main>
+            {% block body %}
+            {% endblock %}
+        </main>
+
+		{% block footer %}
+			{{ include("partials/_footer2.html.twig") }}
+		{% endblock %}
+	</body>
+</html>

@@ -24,7 +24,7 @@ class UserController extends AbstractController
     {
         $users = $paginator->paginate(
             $userRepository->findAll(),
-            $request->query->getInt('page', "1"), 4
+            $request->query->getInt('page', "1"), 10
         );
 
         return $this->render('pages/user/index.html.twig', [
@@ -51,7 +51,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('pages/user/new.html.twig', [
+        return $this->render('pages/user/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -74,21 +74,25 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Récupérez l'utilisateur connecté
+        $currentUser = $this->getUser();
+    
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
             $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
             $userRepository->save($user, true);
-
+    
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('pages/user/edit.html.twig', [
+    
+        return $this->render('pages/user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+            'currentUser' => $currentUser,
         ]);
     }
 

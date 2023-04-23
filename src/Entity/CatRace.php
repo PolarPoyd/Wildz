@@ -5,8 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CatRaceRepository;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -30,18 +30,18 @@ class CatRace
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt;
 
-    #[ORM\OneToMany(mappedBy: 'race', targetEntity: Cats::class)]
+    #[ORM\OneToMany(mappedBy: 'race', targetEntity: Cats::class, cascade: ['remove'])]
     private Collection $cats;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
-
     #[Vich\UploadableField(mapping: 'post_images',
     fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
+    
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\PrePersist()]
     public function setUpdatedAtValue()
@@ -106,14 +106,12 @@ class CatRace
     public function removeCat(Cats $cat): self
     {
         if ($this->cats->removeElement($cat)) {
-            // set the owning side to null (unless already changed)
-            if ($cat->getRace() === $this) {
-                $cat->setRace(null);
-            }
+            $cat->setRace(null);
         }
-
+    
         return $this;
     }
+    
     public function __toString() {
         return $this->name;    
     }

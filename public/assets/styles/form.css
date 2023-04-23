@@ -1,0 +1,79 @@
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 25px;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .inscription-btn {
+    background-color: salmon;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }  
+
+  .inscription-btn:hover {
+    background-color: rgba(247, 126, 112, 0.811);
+}
+
+button.inscription-btn {
+    display: block;
+    margin: 0 auto;
+}
+  
+  .form-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+  }
+  
+  .form-input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 .2rem rgba(74,144,226,.25);
+  }
+  
+  .form-submit {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4a90e2;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+  }
+  
+  .form-submit:hover {
+    background-color: #3886c9;
+  }
+  
+  form {
+    margin: 50px auto;
+    width: 50%;
+  }

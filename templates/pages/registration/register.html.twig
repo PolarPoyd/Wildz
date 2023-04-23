@@ -1,21 +1,62 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Inscription Admin{% endblock %}
+{% block title %}Inscription WildZ
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/styles/form.css') }}">
+{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Formulaire d'inscription</h1>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.firstname) }}
-        {{ form_row(registrationForm.lastname) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-    {{ form_end(registrationForm) }}
+    <div class="form-container">
+        <h1 class="form-title">Inscription</h1>
+        {{ form_start(registrationForm) }}
+        <div class="form-field">
+            {{ form_row(registrationForm.email, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'Email'
+                    }
+                }) }}
+        </div>
+        <div class="form-field">
+            {{ form_row(registrationForm.firstname, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'Prénom'
+                    }
+                }) }}
+        </div>
+        <div class="form-field">
+            {{ form_row(registrationForm.lastname, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'Nom'
+                    }
+                }) }}
+        </div>
+        <div class="form-field">
+            {{ form_row(registrationForm.plainPassword.first, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'Mot de passe'
+                    },
+                }) }}
+        </div>
+        <div class="form-field">
+            {{ form_row(registrationForm.plainPassword.second, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'Répéter le mot de passe'
+                    },
+                }) }}
+        </div>
+        {{ form_rest(registrationForm) }}
+        <button class="inscription-btn">{{ button_label|default('Inscription') }}</button>
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

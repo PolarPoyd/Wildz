@@ -1,4 +1,5 @@
-<form method="post" action="{{ path('app_cat_race_delete', {'id': cat_race.id}) }}" onsubmit="return confirm('Êtes vous sur de voulour supprimer cette race ?');">
+<form method="post" action="{{ path('app_cat_race_delete', {'id': cat_race.id}) }}" onsubmit="return confirm
+('Êtes vous sur de vouloir supprimer cette race ? Si un chat est associé à celle-ci il faudra de nouveau lui en attribuer une nouvelle !');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cat_race.id) }}">
     <button class="btn btn-danger">Supprimer</button>
 </form>
