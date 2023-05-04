@@ -33,20 +33,6 @@ class RegistrationFormType extends AbstractType
             'class' => 'form-label mt-4'
         ]
     ])
-    // ->add('agreeTerms', CheckboxType::class, [
-    //     'mapped' => false,
-    //     'constraints' => [
-    //         new IsTrue([
-    //             'message' => 'You should agree to our terms.',
-    //         ]),
-    //     ],
-    //     'attr' => [
-    //         'class' => 'form-check-input'
-    //     ],
-    //     'label_attr' => [
-    //         'class' => 'form-check-label'
-    //     ]
-    // ])
     ->add('firstname', TextType::class, [
         'attr' => [
             'class' => 'form-control',

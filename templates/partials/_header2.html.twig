@@ -1,35 +1,153 @@
 {% block stylesheets %}
 	<style>
+		/* Navigation */
 		nav {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			background-color: transparent;
 			position: relative;
 			top: 0;
-			left: 0;
-			right: 0;
 			z-index: 999;
-			padding-top: 20px; /* Ajout d'un espace entre le haut de la page et la barre de navigation */
+			background-color: transparent;
+			padding: 20px 0;
 			font-family: 'Montserrat', sans-serif;
-
 		}
+
+		nav ul {
+			display: flex;
+			list-style: none;
+			margin: 0;
+		}
+
+		nav ul li {
+			margin-right: 20px;
+			border-bottom: 1px solid transparent;
+		}
+
 		nav ul li a {
 			color: #000;
 			text-decoration: none;
-			font-size: 16px;
 			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 16px;
 			transition: border-bottom 0.3s ease;
-			font-family: 'Montserrat', sans-serif; /* Ajout de la police Montserrat */
-			font-weight: 300;
+		}
+
+		nav ul li.active a,
+		nav ul li a:hover {
+			border-bottom: 1px solid #000;
+		}
+
+		.logo {
+			display: flex;
+			align-items: center;
+      margin-left: 10px;
+		}
+
+		.logo img {
+			width: 100px;
+			height: auto;
+			margin-right: 20px;
+		}
+
+		.button-list a.button {
+			background-color: #FF9585;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+
+		.button-list a.button:hover {
+			background-color: #FFAFA0;
+			text-decoration: none;
+		}
+
+		/* Menu burger */
+		.menu-toggle {
+			display: none;
+			position: absolute;
+			top: 50%;
+			right: 60px;
+			transform: translateY(-50%);
+		}
+
+		.burger,
+		.burger.second-line {
+			width: 30px;
+			height: 3px;
+			background-color: black;
+			display: block;
+			position: absolute;
+			left: 20px;
+			transition: 0.5s;
+		}
+
+		.burger.second-line {
+			top: 10px;
+		}
+
+		.burger.hide {
+			display: none;
+		}
+
+		.cross {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 30px;
+			height: 30px;
+		}
+
+		.cross:before,
+		.cross:after {
+			content: "";
+			position: absolute;
+			height: 3px;
+			width: 100%;
+			background-color: black;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.cross:before {
+			transform: rotate(45deg);
+		}
+
+		.cross:after {
+			transform: rotate(-45deg);
+		}
+		/* Ajouter des transitions pour le burger et la croix */
+		.burger,
+		.burger.second-line,
+		.cross:before,
+		.cross:after {
+			transition: transform 0.3s, opacity 0.3s;
+		}
+
+		/* Animer le burger lors de l'ouverture du menu */
+		.menu-toggle.hide-burger .burger {
+			transform: translateY(10px) rotate(45deg);
+			opacity: 0;
+		}
+
+		.menu-toggle.hide-burger .burger.second-line {
+			transform: translateY(-10px) rotate(-45deg);
+			opacity: 0;
+		}
+
+		/* Ajouter une transition pour le menu */
+		.fullscreen-menu {
+			transition: transform 0.5s, opacity 0.5s, visibility 0.5s;
+			transform: translateY(-100%);
+		}
+
+		.fullscreen-menu.show {
+			transform: translateY(0%);
 		}
 
 
-		.title {
-			font-size: 2vw;
-		}
-
-		/* Ajoutez ce style pour le menu plein écran */
+		/* Menu plein écran */
 		.fullscreen-menu {
 			position: fixed;
 			top: 0;
@@ -52,218 +170,84 @@
 			opacity: 1;
 			visibility: visible;
 		}
+
 		.fullscreen-menu ul {
-			list-style-type: none; /* Ajout de cette ligne */
-			padding: 0; /* Ajout de cette ligne */
+			list-style-type: none;
+			padding: 0;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-
+			justify-content: center;
 		}
-		.fullscreen-menu ul li a {
-			text-decoration: none;
-			color: #000;
-			font-family: 'Montserrat', sans-serif;
-			font-weight: bold;
-			font-size: 24px;
-		}
-
-
-		.cross {
-			width: 30px;
-			height: 30px;
-			position: absolute;
-			top: 20px;
-			right: 20px;
-		}
-
-		.cross:before,
-		.cross:after {
-			content: "";
-			position: absolute;
-			height: 3px;
-			width: 100%;
-			background-color: black;
-			top: 50%;
-			transform: translateY(-50%);
-		}
-
-		.cross:before {
-			transform: rotate(45deg);
-		}
-
-		.cross:after {
-			transform: rotate(-45deg);
-		}
-
-
-		.burger {
-			width: 30px;
-			height: 3px;
-			background-color: black;
-			display: block;
-			position: absolute;
-			left: 20px;
-			transition: 0.5s;
-		}
-
-		.burger.second-line {
-			top: 10px; /* place the second line 10px below the first line */
-		}
-
-		.burger.hide {
-			display: none;
-		}
-
-
-		nav ul {
-			display: flex;
-			list-style: none;
-		}
-
-		nav ul li {
-			margin-right: 20px;
-			border-bottom: 1px solid transparent;
-		}
-
-		nav ul li a {
-			color: #000;
-			text-decoration: none;
-			font-size: 16px;
-			font-weight: bold;
-			text-transform: uppercase;
-			transition: border-bottom 0.3s ease;
-		}
-
-		nav ul li.active a,
-		nav ul li a:hover {
-			border-bottom: 1px solid #000;
-		}
-
-		.logo {
-			display: flex;
-			align-items: center;
-		}
-
-		.logo img {
-			width: 100px;
-			height: auto;
-			margin-left: 20px;
-		}
-
-		span {
-			margin-left: 5vw;
-		}
-		.button-list {
-			display: flex;
-			align-items: center;
-			list-style: none;
-			margin-right: 20px;
-			margin-left: 20px; /* Ajout de l'espacement à gauche */
-		}
-
-		.button-list a {
-			text-decoration: none;
-			font-size: 16px;
-			font-weight: bold;
-			text-transform: uppercase;
-			transition: background-color 0.3s ease, color 0.3s ease;
-		}
-
-		.button-list a.button {
-			background-color: #FF9585; /* Couleur saumon */
-			color: #fff; /* Police blanche */
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-		}
-
-		.button-list a.button:hover {
-			background-color: #FFAFA0; /* Couleur saumon plus claire */
-			text-decoration: none;
-		}
-
-
-		.button-list li {
-			margin-right: 10px;
-		}
-
-		.button-list li:last-child {
-			margin-right: 0;
-		}
-
-		.button-list a {
-			color: #000;
-			text-decoration: none;
-			font-size: 16px;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
-
-		.button-list a:hover {
-			border-bottom: none;
-			text-decoration: underline;
-		}
-
-		.button-list button {
-			background-color: #000;
-			color: #fff;
-			border: none;
-			padding: 10px 20px;
-			border-radius: 5px;
-			font-size: 16px;
-			font-weight: bold;
-			text-transform: uppercase;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
-
-		.button-list button:hover {
-			background-color: #fff;
-			color: #000;
-		}
-
-		.hide {
-			display: none;
-		}
-
-		.show {
-			display: block;
-		}
-
-		.menu-toggle {
-			display: none;
-			position: absolute;
-			top: 50%;
-			right: 60px;
-			transform: translateY(-50%);
-		}
-
-		.cross {
-			position: absolute;
-			top: 20px;
-			right: 20px;
-			display: none;
-		}
-		.show .cross {
-			display: block;
-		}
-
 
 		.fullscreen-menu ul li {
-			margin-bottom: 20px; /* Augmenter l'espacement entre les liens */
+			margin-bottom: 20px;
 		}
 
 		.fullscreen-menu ul li:last-child {
 			margin-bottom: 0;
 		}
 
-		/* Centrer les liens du menu burger sur la page */
-		.fullscreen-menu ul {
-			justify-content: center;
-			margin-top: 20vh;
+		.fullscreen-menu ul li a {
+			text-decoration: none;
+			color: #000;
+			font-family: 'Montserrat', sans-serif;
+			font-weight: bold;
+			font-size: 24px;
+			text-transform: uppercase;
 		}
 
+		/* Boutons */
+		.button-list {
+			display: flex;
+			align-items: center;
+			list-style: none;
+			margin: 0;
+		}
+
+		.button-list a {
+			text-decoration: none;
+			font-size: 16px;
+		}
+
+		/* Media queries pour les écrans entre 1200px et 1121px */
+		@media(max-width: 1200px) {
+			nav ul li a,
+			.button-list a {
+				font-size: 14px;
+			}
+
+			nav ul li {
+				margin-right: 10px;
+			}
+
+			.button-list li {
+				margin-right: 10px;
+			}
+
+			.button-list a.button {
+				font-size: 14px;
+				padding: 8px 16px;
+			}
+		}
+
+		/* Media queries pour les écrans entre 1120px et 769px */
+		@media(max-width: 1120px) and(min-width: 769px) {
+			nav ul li a,
+			.button-list a {
+				font-size: 12px;
+			}
+
+			nav ul li {
+				margin-right: 5px;
+			}
+
+			.button-list li {
+				margin-right: 5px;
+			}
+		}
+
+		/* Media queries pour les écrans plus petits que 769px */
 		@media(max-width: 768px) {
 			nav {
 				flex-direction: column;
@@ -272,10 +256,6 @@
 
 			.title {
 				font-size: 7vw;
-			}
-
-			.hide-burger {
-				display: none;
 			}
 
 			nav ul {
@@ -290,10 +270,9 @@
 				border-bottom: none;
 			}
 
-			.menu-toggle {
-				display: block;
-				cursor: pointer;
-				/* font-size:  */
+			nav ul li a,
+			.button-list a {
+				font-size: 12px;
 			}
 
 			.button-list {
@@ -341,31 +320,33 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500&display=swap" rel="stylesheet">
+
 
 {% endblock %}
 
 {% block scripts %}
 	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-const burger = document.querySelector(".burger");
-const burgerSecond = document.querySelector("#burger-second-line");
-const fullscreenMenu = document.querySelector(".fullscreen-menu");
-const menuToggle = document.querySelector(".menu-toggle"); // Modifiez cette ligne
-const cross = document.querySelector(".fullscreen-menu .cross");
-const fullscreenCross = document.querySelector("#fullscreen-cross");
 
-function toggleMenu() {
-burger.classList.toggle("hide");
-cross.classList.toggle("hide");
-fullscreenMenu.classList.toggle("show");
-menuToggle.classList.toggle("hide-burger");
-cross.classList.toggle("show");
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const burger = document.querySelector(".burger");
+  const fullscreenMenu = document.querySelector(".fullscreen-menu");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const cross = document.querySelector(".fullscreen-menu .cross");
 
-menuToggle.addEventListener("click", toggleMenu);
-burgerSecond.addEventListener("click", toggleMenu);
-cross.addEventListener("click", toggleMenu);
+  const toggleMenu = () => {
+    burger.classList.toggle("hide");
+    cross.classList.toggle("hide");
+    fullscreenMenu.classList.toggle("show");
+    menuToggle.classList.toggle("hide-burger");
+  };
+
+  // Événements pour ouvrir et fermer le menu
+  menuToggle.addEventListener("click", toggleMenu);
+  cross.addEventListener("click", toggleMenu);
 });
+
+
 	</script>
 {% endblock %}
 
@@ -378,10 +359,10 @@ cross.addEventListener("click", toggleMenu);
 		</div>
 		<ul class="hide-menu">
 			<li class="active">
-				<a href="#">Notre Mission</a>
+				<a href="{{ path('app_home') }}">Notre Mission</a>
 			</li>
 			<li>
-				<a href="#">Equipe</a>
+				<a href="{{ path('user_cats') }}">Nos Chats</a>
 			</li>
 			<li>
 				<a href="#">Services</a>
@@ -395,20 +376,23 @@ cross.addEventListener("click", toggleMenu);
 				<li>
 					<a href="{{ path('app_login') }}" class="button">Connexion</a>
 				</li>
-				<!-- Vous pouvez ajouter le lien d'inscription ici si nécessaire -->
 			{% else %}
 				<li>
 					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
 				</li>
+				{% if is_granted('ROLE_ADMIN') %}
+					<li>
+						<a href="{{ path('home.index') }}" class="button">Espace Administrateur</a>
+					</li>
+				{% endif %}
 				<li>
 					<a href="{{ path('app_logout') }}" class="button">Déconnexion</a>
 				</li>
 			{% endif %}
 		</ul>
-		<div class="menu-toggle">
+		<div class="menu-toggle" aria-label="Menu" aria-expanded="false">
 			<span class="burger"></span>
-			{# <span class="burger second-line"></span> #}
-			<span class="burger second-line" id="burger-second-line"></span>
+			<span class="burger second-line"></span>
 		</div>
 	</nav>
 	<div class="fullscreen-menu hide">
@@ -421,7 +405,7 @@ cross.addEventListener("click", toggleMenu);
 				<a href="#">Equipe</a>
 			</li>
 			<li>
-				<a href="#">Services</a>
+				<a href="{{ path('user_cats') }}">Nos Chats</a>
 			</li>
 			<li>
 				<a href="#">Blog</a>
@@ -434,6 +418,11 @@ cross.addEventListener("click", toggleMenu);
 				<li>
 					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
 				</li>
+				{% if is_granted('ROLE_ADMIN') %}
+					<li>
+						<a href="{{ path('home.index') }}" class="button">Espace Administrateur</a>
+					</li>
+				{% endif %}
 				<li>
 					<a href="{{ path('app_logout') }}" class="button">Déconnexion</a>
 				</li>

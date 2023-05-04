@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-#[Route('/dog/race')]
+#[Route('/admin/dog/race')]
 class DogRaceController extends AbstractController
 {
     /**

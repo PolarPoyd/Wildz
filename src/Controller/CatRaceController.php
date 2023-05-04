@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
-#[Route('/cat/race')]
+#[Route('/admin/cat/race')]
 class CatRaceController extends AbstractController
 {
 

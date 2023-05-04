@@ -20,13 +20,7 @@ class SecurityController extends AbstractController
     {
         $user = $this->getUser();
         if ($user) {
-            if ($this->isGranted('ROLE_ADMIN')) {
-                return $this->redirectToRoute('index.hom');
-            }
-            
-            if ($this->isGranted('ROLE_USER')) {
-                return $this->redirectToRoute('user_home');
-            }
+            return $this->redirectToRoute('app_home');
         }
     
         return $this->render('security/login.html.twig', [
@@ -34,6 +28,7 @@ class SecurityController extends AbstractController
             'error' => $authenticationUtils->getLastAuthenticationError()
         ]);
     }
+    
     
 
     #[Route(path: '/logout', name: 'app_logout')]

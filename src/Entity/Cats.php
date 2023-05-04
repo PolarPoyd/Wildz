@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CatsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -50,6 +52,9 @@ class Cats
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'cat_like')]
+    private Collection $users;
 
     #[ORM\PrePersist()]
     public function setUpdatedAtValue()
@@ -126,6 +131,7 @@ class Cats
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->users = new ArrayCollection();
     }
 
     public function getRace(): ?CatRace
@@ -175,5 +181,32 @@ class Cats
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addCatLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeCatLike($this);
+        }
+
+        return $this;
     }
 }

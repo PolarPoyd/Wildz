@@ -9,10 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-#[Route('/dogs')]
+#[Route('/admin/dogs')]
 class DogsController extends AbstractController
 {
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/', name: 'app_dogs_index', methods: ['GET'])]
     public function index(DogsRepository $dogsRepository): Response
     {
@@ -21,6 +25,9 @@ class DogsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/new', name: 'app_dogs_new', methods: ['GET', 'POST'])]
     public function new(Request $request, DogsRepository $dogsRepository): Response
     {
@@ -40,6 +47,9 @@ class DogsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_dogs_show', methods: ['GET'])]
     public function show(Dogs $dog): Response
     {
@@ -48,6 +58,9 @@ class DogsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}/edit', name: 'app_dogs_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Dogs $dog, DogsRepository $dogsRepository): Response
     {
@@ -66,6 +79,9 @@ class DogsController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     #[Route('/{id}', name: 'app_dogs_delete', methods: ['POST'])]
     public function delete(Request $request, Dogs $dog, DogsRepository $dogsRepository): Response
     {

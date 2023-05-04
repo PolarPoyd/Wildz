@@ -1,59 +1,65 @@
 {% block body %}
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">
-			<img src="{{ asset('assets/logo/pet-hotel-sign-with-a-dog-and-a-cat-under-a-roof-line.png') }}" alt="Logo" height="30">
-      <span style="color: black;">WildZ</span>
-		</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item {% if app.request.get('_route') == 'home.index' %}active{% endif %}">
-					<a class="nav-link" href="{{ path('home.index') }}">Accueil
-						{% if app.request.get('_route') == 'home.index' %}
-							<span class="visually-hidden">(current)</span>
-						{% endif %}
-					</a>
-				</li>
-				<li class="nav-item {% if app.request.get('_route') == 'app_user_index' %}active{% endif %}">
-					<a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a>
-				</li>
-				<li class="nav-item dropdown {% if app.request.get('_route') == 'app_cats_index' or app.request.get('_route') == 'app_cat_race_index' %}active{% endif %}">
-					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chats</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{{ path('app_cats_index') }}">Chats</a>
-						<a class="dropdown-item" href="{{ path('app_cat_race_index') }}">Race</a>
-					</div>
-				</li>
-				<li class="nav-item dropdown {% if app.request.get('_route') == 'app_dogs_index' or app.request.get('_route') == 'app_dog_race_index' %}active{% endif %}">
-					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chiens</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{{ path('app_dogs_index') }}">Chiens</a>
-						<a class="dropdown-item" href="{{ path('app_dog_race_index') }}">Race</a>
-					</div>
-				</li>
-			</ul>
-			{% if app.user is null %}
-				<a class="btn btn-outline-light" href="{{ path('app_login') }}">Connexion</a>
-			{% else %}
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							{{ app.user.email }}
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li>
-								<a class="dropdown-item" href="{{ path('app_user_show', {'id': app.user.id}) }}">Mes informations</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			{% endif %}
-		</div>
-	</nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('assets/logo/pet-hotel-sign-with-a-dog-and-a-cat-under-a-roof-line.png') }}" alt="Logo" height="30">
+            <span style="color: black;">WildZ</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item {% if app.request.get('_route') == 'home.index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('home.index') }}">Accueil
+                        {% if app.request.get('_route') == 'home.index' %}
+                            <span class="visually-hidden">(current)</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item {% if app.request.get('_route') == 'app_user_index' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('app_user_index') }}">Utilisateurs</a>
+                </li>
+                <li class="nav-item dropdown {% if app.request.get('_route') == 'app_cats_index' or app.request.get('_route') == 'app_cat_race_index' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chats</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('app_cats_index') }}">Chats</a>
+                        <a class="dropdown-item" href="{{ path('app_cat_race_index') }}">Race</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown {% if app.request.get('_route') == 'app_dogs_index' or app.request.get('_route') == 'app_dog_race_index' %}active{% endif %}">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chiens</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('app_dogs_index') }}">Chiens</a>
+                        <a class="dropdown-item" href="{{ path('app_dog_race_index') }}">Race</a>
+                    </div>
+                </li>
+            </ul>
+            {% if app.user is null %}
+                <a class="btn btn-outline-light" href="{{ path('app_login') }}">Connexion</a>
+            {% else %}
+                <ul class="navbar-nav ms-auto">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light me-2" href="{{ path('app_home') }}">Espace utilisateur</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						                            {{ app.user.firstname }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_user_show', {'id': app.user.id}) }}">Mes informations</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
 
 {% endblock %}
+
