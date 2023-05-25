@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: "user_cats")]
     private Collection $cat_like;
 
+    #[ORM\ManyToMany(targetEntity: Dogs::class, inversedBy: 'users')]
+    private Collection $dogs;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -182,6 +185,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->cat_like = new ArrayCollection();
+        $this->dogs = new ArrayCollection();
     }
 
     public function isVerified(): bool
@@ -216,6 +220,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCatLike(Cats $catLike): self
     {
         $this->cat_like->removeElement($catLike);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dogs>
+     */
+    public function getDogs(): Collection
+    {
+        return $this->dogs;
+    }
+
+    public function addDog(Dogs $dog): self
+    {
+        if (!$this->dogs->contains($dog)) {
+            $this->dogs->add($dog);
+        }
+
+        return $this;
+    }
+
+    public function removeDog(Dogs $dog): self
+    {
+        $this->dogs->removeElement($dog);
 
         return $this;
     }

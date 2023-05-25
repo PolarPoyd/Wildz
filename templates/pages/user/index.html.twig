@@ -19,7 +19,6 @@
 			<thead>
 				<tr class="table-active">
 					<th scope="col">Email</th>
-					<th scope="col">Mot de passe</th>
 					<th scope="col">Prénom</th>
 					<th scope="col">Nom</th>
 					<th scope="col">Crée le</th>
@@ -32,7 +31,6 @@
 				{% for user in users %}
 				<tr class="table-active">
 					<td>{{ user.email }}</td>
-					<td>{{ user.password }}</td>
 					<td>{{ user.firstname }}</td>
 					<td>{{ user.lastname }}</td>
 					<td>{{ user.createdAt ? user.createdAt|date('d/m/Y à H:i:s') : '' }}</td>

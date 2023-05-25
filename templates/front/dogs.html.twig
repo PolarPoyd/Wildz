@@ -18,28 +18,17 @@
 
 		.card {
 			position: relative;
-			width: 340px;
+			width: 340px; 
 			margin: 10px 15px; /* Ajustement des marges pour espacer les cartes */
 			border: none;
 			overflow: hidden;
 			background-color: #fff;
-			display: flex;
-			flex-direction: column; /* Ensure that the content is vertically stacked */
-		}
-
-		.card-image-container {
-			position: relative;
-			height: 550px; /* The same height as your images */
-			display: flex;
-			justify-content: center;
-			align-items: center; /* Vertically center the contents */
-			overflow: hidden;
 		}
 
 		.card img {
 			width: 100%;
-			height: 100%;
-			object-fit: cover; /* Assure que l'image couvre tout l'espace disponible sans se déformer */
+			height: auto;
+			object-fit: cover;
 			transition: transform 0.3s;
 		}
 
@@ -49,7 +38,7 @@
 
 		.card-body {
 			padding: 20px;
-			text-align: center;
+			text-align: center; 
 		}
 
 		.card-title {
@@ -90,7 +79,7 @@
 		}
 
 		.titleCat {
-			text-align: center;
+			text-align: center; 
 			margin-top: 80px;
 			margin-bottom: 50px;
 			width: 100%; /* Assurer que le titre s'étend sur toute la largeur de la page */
@@ -100,32 +89,31 @@
 			margin-bottom: 50px;
 		}
 
-		.white{
+				.white{
 			width: 100%;
 			height: 200px;
 			background-color: white;
 		}
+		
 	</style>
 {% endblock %}
 
 {% block body %}
 	<div class="container">
-		<h1 class="titleCat">Nos Chats</h1>
-		{% for cat in cats %}
+		<h1 class="titleCat">Nos Chiens</h1>
+		{% for dog in dogs %}
 			<div class="card">
-				<div class="card-image-container">
-					<img src="{{ asset('images/post/' ~ cat.imageName) }}" alt="{{ cat.name }}">
-				</div>
+				<img src="{{ asset('images/post/' ~ dog.imageName) }}" alt="{{ dog.name }}">
 				<div class="card-body">
-					<h5 class="card-title">{{ cat.name }}</h5>
-					<p class="card-text">{{ cat.description }}</p>
+					<h5 class="card-title">{{ dog.name }}</h5>
+					<p class="card-text">{{ dog.description }}</p>
 				</div>
 				<div class="card-footer">
-					<p>{{ cat.createdAt|date("d/m/Y") }}</p>
+					<p>{{ dog.createdAt|date("d/m/Y") }}</p>
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						{% set userLikesCat = cat in user.catLike %}
-						<form action="{{ path(userLikesCat ? 'unlike_cat' : 'like_cat', {'catId': cat.id}) }}" method="post">
-							<button type="submit">{{ userLikesCat ? "Je n'aime plus ce chat" : "Aimer ce chat" }}</button>
+						{% set userLikesDog = dog in user.dogs %}
+						<form action="{{ path(userLikesDog ? 'unlike_dog' : 'like_dog', {'dogId': dog.id}) }}" method="post">
+							<button type="submit">{{ userLikesDog ? "Je n'aime plus ce chien" : "Aimer ce chien" }}</button>
 						</form>
 					{% endif %}
 				</div>

@@ -3,41 +3,67 @@
 {% block title %}Dogs index{% endblock %}
 
 {% block body %}
-    <h1>Dogs index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for dog in dogs %}
-            <tr>
-                <td>{{ dog.id }}</td>
-                <td>{{ dog.name }}</td>
-                <td>{{ dog.age }}</td>
-                <td>{{ dog.description }}</td>
-                <td>{{ dog.createdAt ? dog.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ dog.updatedAt ? dog.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_dogs_show', {'id': dog.id}) }}">show</a>
-                    <a href="{{ path('app_dogs_edit', {'id': dog.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_dogs_new') }}">Create new</a>
+	<div class="row my-3 custom-class">
+		<div class="col-sm-12 col-md-6">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success">{{ message }}</div>
+			{% endfor %}
+		</div>
+		<div class="col-12 mx-auto px-4">
+			<h1 class="text-center mt-5">
+				Tous les chiens
+			</h1>
+			<h4 class="text-center mt-1 mb-5">Il y a
+				{{ dogs|length }}
+				chiens au total</h4>
+			<div class="table-responsive">
+				<table class="table table-hover table-sm">
+					<thead>
+						<tr class="table-active">
+							<th scope="col">Nom</th>
+							<th scope="col">Age</th>
+							<th scope="col">Description</th>
+							<th scope="col">Créé le</th>
+							<th scope="col">Editer</th>
+							<th scope="col">Détails</th>
+							<th scope="col">Supprimer</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for dog in dogs %}
+							<tr class="table-active">
+								<td>{{ dog.name }}</td>
+								<td>{{ dog.age }}</td>
+								<td>{{ dog.description }}</td>
+								<td>{{ dog.createdAt ? dog.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+								<td>
+									<a href="{{ path('app_dogs_edit', {'id': dog.id}) }}" class="btn btn-primary">Modifier</a>
+								</td>
+								<td>
+									<a href="{{ path('app_dogs_show', {'id': dog.id}) }}" class="btn btn-info">Détails</a>
+								</td>
+								<td>
+									{{ include('pages/dogs/_delete_form.html.twig') }}
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="7">Il n'y a rien ici...</td>
+							</tr>
+						{% endfor %}
+						{% if dogs is empty %}
+							<tr>
+								<td colspan="7">Pas de chiens</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-12 text-center mt-3">
+			<a href="{{ path('app_dogs_new') }}" class="btn btn-success">Créer</a>
+		</div>
+	</div>
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Modifier le Profil
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/styles/form.css') }}">
+{% endblock %}
+
+{% block body %}
+	<div class="form-container">
+		<h1 class="form-title">Modifier le Profil</h1>
+
+		{{ form_start(form) }}
+		<div class="form-field">
+			{{ form_label(form.email) }}
+			{{ form_widget(form.email, {'attr': {'class': 'form-input', 'placeholder': 'Email', 'autocomplete': 'email'}}) }}
+		</div>
+		<div class="form-field">
+			{{ form_label(form.firstname) }}
+			{{ form_widget(form.firstname, {'attr': {'class': 'form-input', 'placeholder': 'Prénom'}}) }}
+		</div>
+		<div class="form-field">
+			{{ form_label(form.lastname) }}
+			{{ form_widget(form.lastname, {'attr': {'class': 'form-input', 'placeholder': 'Nom'}}) }}
+		</div>
+		<div class="form-field">
+			{{ form_label(form.plainPassword) }}
+			{{ form_widget(form.plainPassword, {'attr': {'class': 'form-input', 'placeholder': 'Nécessaire pour valider', 'autocomplete': 'current-password'}}) }}
+		</div>
+
+		<button class="inscription-btn" type="submit">Modifier</button>
+		<button class="inscription-btn" style="margin-top: 20px" type="button" onclick="location.href='{{ path('app_user_change_password') }}'">Changer mot de passe</button>
+
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

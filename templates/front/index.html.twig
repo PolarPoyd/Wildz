@@ -1,22 +1,59 @@
 {% extends 'base2.html.twig' %}
 
 {% block stylesheets %}
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-family: Arial, sans-serif;
+        }
 
-<style>
-    body {
-        background-color: white;
-    }
+        .big {
+            width: 100%;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+        }
 
-    .big{
-        width: 100%;
-        height: 500px;
-        background-color: red;
-        margin-top: 3%;
-    }
-</style>
+        h1 {
+            font-size: 3em;
+            margin-bottom: 1em;
+        }
 
+        .p {
+            font-size: 1em;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Styles pour écran plus petit que 600px */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+                margin-top: 50px;
+            }
+
+            .p {
+                font-size: 0.8em;
+                max-width: 400px;
+            }
+
+            .big {
+                height: auto;
+                padding: 20px;
+                margin-bottom: 80px;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-<div class="big"></div>
+    <div class="big">
+        <h1>Notre mission</h1>
+        <p class="p">Quand vous adoptez, vous ne donnez pas seulement un foyer à un chien qui le mérite. Vous réduisez également la demande dont profitent les usines à chiots et d’autres exploitations d’élevage industriel qui pensent plus à gagner de l’argent qu’au bien-être des animaux.</p>
+        <p class="p">Notre mission est de vous aider à trouver le compagnon parfait pour votre famille. Nous nous engageons à traiter chaque animal avec amour et respect, en nous assurant qu'ils sont en bonne santé et prêts à rejoindre leur nouveau foyer.</p>
+    </div>
 {% endblock %}

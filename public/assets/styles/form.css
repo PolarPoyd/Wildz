@@ -21,6 +21,21 @@
   .inscription-btn:hover {
     background-color: rgba(247, 126, 112, 0.811);
 }
+.inscription-link {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background-color: salmon;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.inscription-link:hover {
+  background-color: rgba(247, 126, 112, 0.811);
+}
 
 button.inscription-btn {
     display: block;

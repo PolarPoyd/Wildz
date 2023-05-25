@@ -16,7 +16,13 @@
 		nav ul {
 			display: flex;
 			list-style: none;
-			margin: 0;
+			margin-left: 50px;
+			justify-content: center; /* Add this */
+			align-items: center;
+		}
+
+		.title {
+			display: none;
 		}
 
 		nav ul li {
@@ -25,23 +31,41 @@
 		}
 
 		nav ul li a {
+			position: relative;
 			color: #000;
 			text-decoration: none;
 			text-transform: uppercase;
 			font-weight: bold;
 			font-size: 16px;
-			transition: border-bottom 0.3s ease;
 		}
 
-		nav ul li.active a,
-		nav ul li a:hover {
-			border-bottom: 1px solid #000;
+		nav ul li a::before {
+			content: "";
+			position: absolute;
+			width: 0;
+			height: 2px;
+			bottom: 0;
+			left: 0;
+			background-color: #000;
+			visibility: hidden;
+			transition: all 0.3s ease-in-out;
 		}
+
+		nav ul li a:hover::before {
+			visibility: visible;
+			width: 100%;
+		}
+
+		nav ul li.active a::before {
+			visibility: visible;
+			width: 100%;
+		}
+
 
 		.logo {
 			display: flex;
 			align-items: center;
-      margin-left: 10px;
+			margin-left: 10px;
 		}
 
 		.logo img {
@@ -62,6 +86,43 @@
 			background-color: #FFAFA0;
 			text-decoration: none;
 		}
+
+		/* Dropdown */
+		.nav-dropdown {
+			position: relative;
+			display: inline-block;
+			cursor: pointer;
+			margin-right: 3vw;
+		}
+
+		.nav-dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f1f1f1;
+			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+			z-index: 1;
+			/* max-width: 200px; ou toute autre valeur appropriée */
+			right: 0;
+			top: 100%;
+			margin-top: 5px; /* ou toute autre valeur appropriée */
+		}
+
+		.nav-dropdown.active .nav-dropdown-content {
+			display: block;
+		}
+
+		.nav-dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+		.nav-dropdown-content a:hover {
+			background-color: #ddd;
+		}
+
+
 
 		/* Menu burger */
 		.menu-toggle {
@@ -255,6 +316,7 @@
 			}
 
 			.title {
+				display: block;
 				font-size: 7vw;
 			}
 
@@ -329,24 +391,40 @@
 	<script>
 
 document.addEventListener("DOMContentLoaded", () => {
-  const burger = document.querySelector(".burger");
-  const fullscreenMenu = document.querySelector(".fullscreen-menu");
-  const menuToggle = document.querySelector(".menu-toggle");
-  const cross = document.querySelector(".fullscreen-menu .cross");
+const burger = document.querySelector(".burger");
+const fullscreenMenu = document.querySelector(".fullscreen-menu");
+const menuToggle = document.querySelector(".menu-toggle");
+const cross = document.querySelector(".fullscreen-menu .cross");
+const accountButton = document.querySelector(".nav-dropdown");
 
-  const toggleMenu = () => {
-    burger.classList.toggle("hide");
-    cross.classList.toggle("hide");
-    fullscreenMenu.classList.toggle("show");
-    menuToggle.classList.toggle("hide-burger");
-  };
+const toggleMenu = () => {
+burger.classList.toggle("hide");
+cross.classList.toggle("hide");
+fullscreenMenu.classList.toggle("show");
+menuToggle.classList.toggle("hide-burger");
+};
 
-  // Événements pour ouvrir et fermer le menu
-  menuToggle.addEventListener("click", toggleMenu);
-  cross.addEventListener("click", toggleMenu);
+// Événements pour ouvrir et fermer le menu
+menuToggle.addEventListener("click", toggleMenu);
+cross.addEventListener("click", toggleMenu);
+
+let mouseDown = false;
+
+accountButton.addEventListener("mousedown", function () {
+mouseDown = true;
 });
 
+accountButton.addEventListener("mouseup", function () {
+if (mouseDown) {
+this.classList.toggle("active");
+mouseDown = false;
+}
+});
 
+accountButton.addEventListener("mouseleave", function () {
+mouseDown = false;
+});
+});
 	</script>
 {% endblock %}
 
@@ -358,17 +436,17 @@ document.addEventListener("DOMContentLoaded", () => {
 			<span class="title">WildZ</span>
 		</div>
 		<ul class="hide-menu">
-			<li class="active">
+			<li class="{{ app.request.get('_route') == 'app_service' ? 'active' : '' }}">
+				<a href="{{ path('app_service') }}">Nos Services</a>
+			</li>
+			<li class="{{ app.request.get('_route') == 'app_home' ? 'active' : '' }}">
 				<a href="{{ path('app_home') }}">Notre Mission</a>
 			</li>
-			<li>
+			<li class="{{ app.request.get('_route') == 'user_cats' ? 'active' : '' }}">
 				<a href="{{ path('user_cats') }}">Nos Chats</a>
 			</li>
-			<li>
-				<a href="#">Services</a>
-			</li>
-			<li>
-				<a href="#">Blog</a>
+			<li class="{{ app.request.get('_route') == 'user_dogs' ? 'active' : '' }}">
+				<a href="{{ path('user_dogs') }}">Nos Chiens</a>
 			</li>
 		</ul>
 		<ul class="button-list">
@@ -377,16 +455,15 @@ document.addEventListener("DOMContentLoaded", () => {
 					<a href="{{ path('app_login') }}" class="button">Connexion</a>
 				</li>
 			{% else %}
-				<li>
-					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
-				</li>
-				{% if is_granted('ROLE_ADMIN') %}
-					<li>
-						<a href="{{ path('home.index') }}" class="button">Espace Administrateur</a>
-					</li>
-				{% endif %}
-				<li>
-					<a href="{{ path('app_logout') }}" class="button">Déconnexion</a>
+				<li class="nav-dropdown">
+					<a href="#" class="button dropbtn">Mon compte</a>
+					<div class="nav-dropdown-content">
+						<a href="{{ path('app_user_profile_edit', {'id': app.user.id}) }}">Profile</a>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('home.index') }}">Espace Administrateur</a>
+						{% endif %}
+						<a href="{{ path('app_logout') }}">Déconnexion</a>
+					</div>
 				</li>
 			{% endif %}
 		</ul>
@@ -396,19 +473,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		</div>
 	</nav>
 	<div class="fullscreen-menu hide">
-		<span class="cross" id="fullscreen-cross"></span>
+		<span class="cross"></span>
 		<ul>
-			<li>
-				<a href="#">Notre Mission</a>
+			<li class="{{ app.request.get('_route') == 'app_home' ? 'active' : '' }}">
+				<a href="{{ path('app_home') }}">Notre Mission</a>
 			</li>
 			<li>
-				<a href="#">Equipe</a>
+				<a href="{{ path('app_service') }}">Nos Services</a>
 			</li>
-			<li>
+			<li class="{{ app.request.get('_route') == 'user_cats' ? 'active' : '' }}">
 				<a href="{{ path('user_cats') }}">Nos Chats</a>
 			</li>
-			<li>
-				<a href="#">Blog</a>
+			<li class="{{ app.request.get('_route') == 'user_dogs' ? 'active' : '' }}">
+				<a href="{{ path('user_dogs') }}">Nos Chiens</a>
 			</li>
 			{% if app.user is null %}
 				<li>
@@ -416,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				</li>
 			{% else %}
 				<li>
-					<a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="button">Mon compte</a>
+					<a href="{{ path('app_user_profile_edit', {'id': app.user.id}) }}" class="button">Mon compte</a>
 				</li>
 				{% if is_granted('ROLE_ADMIN') %}
 					<li>
